@@ -3,9 +3,10 @@ import glob
 import pandas as pd
 import csv
 
-
 class MonthDaySeparation:
     # Splitting Months & Days Function.
+    def __init__(self, df):
+        self.df = df
     def month_day_attraction(date_folder):
         date_list = os.listdir(date_folder)
         split_date_list = []
@@ -28,6 +29,7 @@ class MonthDaySeparation:
             print(f"\nProcessing folder: {folder}")
             month_day_list = month_day_attraction(folder)
             print("month_day_list:", month_day_list)
+    
     # for SDL in month_day_attraction:
     #     for x in SDL:
     #         # Add the months and day seperately in the excel spread sheet.
