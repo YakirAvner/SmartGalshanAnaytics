@@ -7,7 +7,9 @@ if __name__ == "__main__":
     df = pd.DataFrame(columns=["DBName", "MaxTemp",
                       "TimeMaxTemp", "NumDetections"])
     connector = dbc(df)
-    connector.load_databases()   # fills df and writes data.csv
+    connector.load_databases()  # fills df and writes data.csv
+    connector.save('data.csv', 'data.xlsx')  # saves data.csv and data.xlsx
+    df
 
     # data = {
     #     'Database': [],

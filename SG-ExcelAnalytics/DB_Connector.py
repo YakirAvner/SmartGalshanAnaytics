@@ -44,12 +44,26 @@ class DBConnector:
 
                     self.df.loc[len(self.df)] = [dbName, MT,
                                                  TMT, num_of_detections]
-                self.df.to_csv('data.csv', index=False)
             except sqlite3.Error as e:
                 print(f"Failed to connect to SQLite db: {dbName}")
             finally:
                 if conn:
                     conn.close()
 
-    def save(self, filename='data.csv'):
-        self.df.to_csv(filename, index=False)
+    def save(self, csv_filename):
+        if not os.path.exists(csv_filename):
+            # Write data to a new CSV file
+            self.df.to_csv(csv_filename, index=False)
+        else:
+            # Append data to existing CSV without writing the header
+            self.df.to_csv(csv_filename, mode='a', header=False, index=False)
+
+    def save_excel(self, excel_filename):
+        if not os.path.exists(excel_filename):
+            # Write data to a new Excel file
+            self.df.to_excel(excel_filename, index=False)
+        else:
+            # Append data to existing Excel file
+            with pd.ExcelWriter(excel_filename, mode='a', if_sheet_exists='overlay') as writer:
+                self.df.to_excel(writer, index=False, header=False,
+                                 startrow=writer.sheets['Sheet1'].max_row)
