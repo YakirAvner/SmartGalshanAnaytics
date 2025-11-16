@@ -4,11 +4,12 @@ import csv
 import os
 import glob
 
+
 class DBConnector:
     def __init__(self, df):
         self.df = df
-    
-    def load_databases(self): 
+
+    def load_databases(self):
         # Connecting to each DB in the list.
         # Define the database connector pattern with wildcards
         db_connector_pattern = r"C:\Users\user\Desktop\Yakir Avner\DBTraining\Galshan*\Galshan*DB"
@@ -41,13 +42,14 @@ class DBConnector:
                     num_of_detections = num_of_detections.execute(
                         "SELECT COUNT(*) from Detections").fetchone()[0]
 
-                    self.df.loc[len(self.df)] = [dbName, MT, TMT, num_of_detections]
+                    self.df.loc[len(self.df)] = [dbName, MT,
+                                                 TMT, num_of_detections]
                 self.df.to_csv('data.csv', index=False)
             except sqlite3.Error as e:
                 print(f"Failed to connect to SQLite db: {dbName}")
             finally:
-                if conn:    
+                if conn:
                     conn.close()
-                   
+
     def save(self, filename='data.csv'):
         self.df.to_csv(filename, index=False)
